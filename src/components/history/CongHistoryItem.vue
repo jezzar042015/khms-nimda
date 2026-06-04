@@ -2,6 +2,7 @@
     <div class="text-sm mb-4 p-3 shadow-md bg-white">
         <div class="font-bold">{{ dateDisplay }}</div>
         <div>{{ time }}</div>
+        <div class="text-xs">{{ congHistoryItem.ts }}</div>
     </div>
 </template>
 
