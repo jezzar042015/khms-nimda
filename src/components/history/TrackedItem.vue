@@ -1,6 +1,6 @@
 <template>
-    <div class="odd:bg-white even:bg-gray-200 text-sm text-black p-3">
-        <div class="uppercase font-bold">{{ trackedItem.cong }}</div>
+    <div class="odd:bg-white font-normal even:bg-gray-200 text-sm text-black p-3">
+        <div class="font-bold">{{ trackedItem.cong }}</div>
         <div class="text-xs">{{ language }}</div>
     </div>
 </template>

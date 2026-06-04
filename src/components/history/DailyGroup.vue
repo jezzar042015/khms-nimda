@@ -26,6 +26,16 @@
 
     const dateDisplay = computed(() => {
         const d = new Date(gbd.day)
-        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+
+        const datePart = d.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+        })
+
+        const weekday = d.toLocaleDateString('en-US', {
+            weekday: 'long',
+        })
+
+        return `${datePart}, ${weekday}`
     })
 </script>
