@@ -7,6 +7,8 @@ import { computed, ref } from "vue";
 export const useHistoryStore = defineStore('history', () => {
     const data = useStorage<TrackedData[]>('nimda-history-data', [], localStorage, { mergeDefaults: true })
     const fetching = ref(false)
+    const expandingDay = ref('')
+    const congregationSearch = ref('')
 
     const SERVER_URL = "https://script.google.com/macros/s/AKfycbykPMZqy-ztAL15ZZTctlnWdu6Zwb0NwObH161tof0H5XBU2W5PAfqNlEvVATuGGBmxJQ/exec"
 
@@ -38,6 +40,10 @@ export const useHistoryStore = defineStore('history', () => {
             }));
     });
 
+    const congregationHistory = computed(()=> {
+        return reversed.value.filter(h => h.cong === congregationSearch.value)
+    })
+
     const pull = async () => {
         try {
             fetching.value = true
@@ -58,7 +64,10 @@ export const useHistoryStore = defineStore('history', () => {
         data,
         reversed,
         groupedByDay,
+        expandingDay,
+        congregationSearch,
+        congregationHistory,
+        fetching,
         pull,
-        fetching
     }
 })

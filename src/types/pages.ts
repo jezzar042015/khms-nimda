@@ -1,1 +1,1 @@
-export type AppPages = 'home' | 'login' | 'register' 
+export type AppPages = 'home' | 'login' | 'register' |'cong-history'
