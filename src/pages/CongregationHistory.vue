@@ -19,7 +19,6 @@
 <script setup lang="ts">
     import CongHistoryItem from '@/components/history/CongHistoryItem.vue';
     import HomeIcon from '@/icons/HomeIcon.vue';
-    import { computed } from 'vue';
     import { useFrequencyAnalyzer } from '@/composables/useFrequencyAnalyzer';
     import { useHistoryStore } from '@/stores/history';
     import { usePageStore } from '@/stores/pages';
