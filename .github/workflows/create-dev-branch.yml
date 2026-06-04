@@ -31,7 +31,7 @@ jobs:
                 const mainRef = await github.rest.git.getRef({
                   owner,
                   repo,
-                  ref: 'heads/main',
+                  ref: 'heads/master',
                 });
                 await github.rest.git.createRef({
                   owner,
@@ -39,7 +39,7 @@ jobs:
                   ref: `refs/heads/${branch}`,
                   sha: mainRef.data.object.sha,
                 });
-                console.log(`Branch '${branch}' created from main.`);
+                console.log(`Branch '${branch}' created from master.`);
               } else {
                 throw error;
               }
