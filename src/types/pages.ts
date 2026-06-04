@@ -1,0 +1,1 @@
+export type AppPages = 'home' | 'login' | 'register' 

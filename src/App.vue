@@ -1,11 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import AppHome from './pages/AppHome.vue';
+  import AppLogin from './pages/AppLogin.vue';
+  import AppUserRegister from './pages/AppUserRegister.vue';
+  import { usePageStore } from './stores/pages';
+
+  const pages = usePageStore()
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <AppHome v-if="pages.active == 'home'" />
+  <AppLogin v-if="pages.active == 'login'" />
+  <AppUserRegister v-if="pages.active == 'register'" />
 </template>
-
-<style scoped></style>
