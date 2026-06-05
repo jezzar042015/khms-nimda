@@ -17,14 +17,14 @@
     import DailyGroup from '@/components/history/DailyGroup.vue';
     import { useTimeAgo } from '@/composables/useTimeAgo';
     import { useHistoryStore } from '@/stores/history';
+    import { storeToRefs } from 'pinia';
     import { onMounted } from 'vue';
 
     const history = useHistoryStore()
-    const { timeAgo } = useTimeAgo(history.ts)
+    const { ts } = storeToRefs(history)
+    const { timeAgo } = useTimeAgo(ts)
 
     onMounted(async () => {
-        await history.pull()
-
         if (!history.expandingDay) {
             const d = history.groupedByDay[0]
             if (d) history.expandingDay = d.day

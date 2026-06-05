@@ -3,9 +3,17 @@
   import AppLogin from './pages/AppLogin.vue';
   import AppUserRegister from './pages/AppUserRegister.vue';
   import CongregationHistory from './pages/CongregationHistory.vue';
+  import { onMounted } from 'vue';
+  import { useHistoryStore } from './stores/history.ts';
   import { usePageStore } from './stores/pages';
 
   const pages = usePageStore()
+  const history = useHistoryStore()
+
+  onMounted(async () => {
+    await history.pull()
+
+  })
 </script>
 
 <template>
