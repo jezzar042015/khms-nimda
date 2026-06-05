@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-7 gap-1 mt-1">
+            <div ref="swipe-catcher" class="grid grid-cols-7 gap-1 mt-1">
                 <div v-for="day in calendarDays" :key="day.key" class="min-h-14 p-0.5 rounded overflow-hidden" :class="{
                     'text-gray-400': !day.currentMonth && day.histories.length == 0,
                     'ring-2 ring-amber-500': day.isToday,
@@ -62,7 +62,8 @@
 <script setup lang="ts">
     import CaretIcon from '@/icons/CaretIcon.vue'
     import type { TrackedData } from '@/types/history'
-    import { computed, ref } from 'vue'
+    import { useSwipe } from '@vueuse/core';
+    import { computed, ref, useTemplateRef, watch } from 'vue'
 
     const { histories } = defineProps<{
         histories: TrackedData[]
@@ -71,7 +72,6 @@
     const daysLabel = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
     const today = new Date()
-
     const month = ref(today.getMonth()) // 0-11
     const year = ref(today.getFullYear())
 
@@ -80,6 +80,20 @@
             month: 'long',
         }),
     )
+
+    const swipeCatcher = useTemplateRef('swipe-catcher')
+    const { isSwiping, direction } = useSwipe(swipeCatcher)
+
+    watch(isSwiping, (swiping, wasSwiping) => {
+        // Swipe just ended
+        if (wasSwiping && !swiping) {
+            if (direction.value === 'left') {
+                next()
+            } else if (direction.value === 'right') {
+                previous()
+            }
+        }
+    })
 
     const showNextBtn = computed(() => {
         return month.value < today.getMonth() && year.value === today.getFullYear()
@@ -105,6 +119,7 @@
     })
 
     const next = () => {
+        if (!showNextBtn.value) return
         if (month.value === 11) {
             month.value = 0
             year.value++
@@ -114,6 +129,7 @@
     }
 
     const previous = () => {
+        if (!showPrevious.value) return
         if (month.value === 0) {
             month.value = 11
             year.value--
