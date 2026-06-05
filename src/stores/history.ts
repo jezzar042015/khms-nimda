@@ -6,6 +6,7 @@ import { computed, ref } from "vue";
 
 export const useHistoryStore = defineStore('history', () => {
     const data = useStorage<TrackedData[]>('nimda-history-data', [], localStorage, { mergeDefaults: true })
+    const ts = useStorage<string>('nimda-data-ts', '', localStorage)
     const fetching = ref(false)
     const expandingDay = ref('')
     const congregationSearch = ref('')
@@ -40,7 +41,7 @@ export const useHistoryStore = defineStore('history', () => {
             }));
     });
 
-    const congregationHistory = computed(()=> {
+    const congregationHistory = computed(() => {
         return reversed.value.filter(h => h.cong === congregationSearch.value)
     })
 
@@ -53,6 +54,7 @@ export const useHistoryStore = defineStore('history', () => {
             if (result.status === 200) {
                 data.value = result.data
                 fetching.value = false
+                ts.value = result.timestamp
             }
         } catch (error) {
             console.log(error);
@@ -69,5 +71,6 @@ export const useHistoryStore = defineStore('history', () => {
         congregationHistory,
         fetching,
         pull,
+        ts
     }
 })
