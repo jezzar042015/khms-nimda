@@ -14,7 +14,7 @@ export function useTimeAgo(timestamp: Ref<string>) {
     const date = new Date(timestamp.value).getTime()
     const diff = now.value - date
 
-    const minutes = Math.floor(diff / 60000)
+    const minutes = Math.floor(diff / 60_000)
 
     if (minutes < 1) return 'Just now'
     if (minutes < 60) return `${minutes} min ago`

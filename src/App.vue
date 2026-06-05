@@ -12,7 +12,6 @@
 
   onMounted(async () => {
     await history.pull()
-
   })
 </script>
 

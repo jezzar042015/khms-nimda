@@ -24,7 +24,7 @@
     const { ts } = storeToRefs(history)
     const { timeAgo } = useTimeAgo(ts)
 
-    onMounted(async () => {
+    onMounted(() => {
         if (!history.expandingDay) {
             const d = history.groupedByDay[0]
             if (d) history.expandingDay = d.day

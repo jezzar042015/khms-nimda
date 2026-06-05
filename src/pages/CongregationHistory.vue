@@ -30,5 +30,4 @@
     const goHome = () => {
         pages.active = 'home'
     }
-
 </script>
