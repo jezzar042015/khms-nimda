@@ -21,14 +21,14 @@
 
     })
 
-    watch(
-        () => history.data,
-        () => {
-            const d = history.groupedByDay[0]
-            if (d) history.expandingDay = d.day
-        },
-        {
-            immediate: true
-        }
-    )
+    // watch(
+    //     () => history.data,
+    //     () => {
+    //         const d = history.groupedByDay[0]
+    //         if (d) history.expandingDay = d.day
+    //     },
+    //     {
+    //         immediate: true
+    //     }
+    // )
 </script>
