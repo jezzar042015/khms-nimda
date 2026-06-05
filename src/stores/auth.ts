@@ -12,7 +12,16 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const login = async (user: string, pass: string) => {
-        // 
+        const tempUsername = 'jezzar'
+        const tempPassword = 'ldc08'
+        const tempToken = 'jbl10202026'
+
+        if (tempUsername === user && tempPassword === pass) {
+            token.value = tempToken
+            return true
+        }
+
+        return false
     }
 
     return {

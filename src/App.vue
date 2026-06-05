@@ -6,18 +6,27 @@
   import { onMounted } from 'vue';
   import { useHistoryStore } from './stores/history.ts';
   import { usePageStore } from './stores/pages';
+  import { useAuthStore } from './stores/auth.ts';
 
   const pages = usePageStore()
   const history = useHistoryStore()
+  const auth = useAuthStore()
 
   onMounted(async () => {
-    await history.pull()
+    if (auth.token) { 
+      pages.active = 'home'
+      await history.pull()
+    } else {
+      pages.active = 'login' 
+    }
   })
 </script>
 
 <template>
-  <AppHome v-if="pages.active == 'home'" />
-  <AppLogin v-if="pages.active == 'login'" />
-  <AppUserRegister v-if="pages.active == 'register'" />
-  <CongregationHistory v-if="pages.active == 'cong-history'" />
+  <div class="mx-auto max-w-md">
+    <AppHome v-if="pages.active == 'home'" />
+    <AppLogin v-if="pages.active == 'login'" />
+    <AppUserRegister v-if="pages.active == 'register'" />
+    <CongregationHistory v-if="pages.active == 'cong-history'" />
+  </div>
 </template>
