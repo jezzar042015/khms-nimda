@@ -1,4 +1,7 @@
 <template>
+    <Teleport to="body">
+        
+    </Teleport>
     <div class="relative overflow-hidden h-screen flex flex-col">
         <ProgressLine v-show="history.fetching" />
         <div class="pt-4 px-4 pb-2">

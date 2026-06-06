@@ -8,7 +8,7 @@ export const useHistoryStore = defineStore('history', () => {
     const data = useStorage<TrackedData[]>('nimda-history-data', [], localStorage, { mergeDefaults: true })
     const ts = useStorage<string>('nimda-data-ts', '', localStorage)
     const fetching = ref(false)
-    const expandingDay = ref('')
+    const targetDay = ref('')
     const congregationSearch = ref('')
 
     const SERVER_URL = "https://script.google.com/macros/s/AKfycbykPMZqy-ztAL15ZZTctlnWdu6Zwb0NwObH161tof0H5XBU2W5PAfqNlEvVATuGGBmxJQ/exec"
@@ -86,7 +86,7 @@ export const useHistoryStore = defineStore('history', () => {
         reversed,
         groupedByDay,
         groupedByMonth,
-        expandingDay,
+        targetDay,
         congregationSearch,
         congregationHistory,
         fetching,

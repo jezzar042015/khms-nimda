@@ -38,9 +38,9 @@
     const gotoCalender = () => pages.active ='calendar'
 
     onMounted(() => {
-        if (!history.expandingDay) {
+        if (!history.targetDay) {
             const d = history.groupedByDay[0]
-            if (d) history.expandingDay = d.day
+            if (d) history.targetDay = d.day
         }
     })
 

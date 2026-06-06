@@ -33,7 +33,7 @@
 
     const setExpand = () => {
         expand.value = !expand.value
-        history.expandingDay = expand.value ? gbd.day : ''
+        history.targetDay = expand.value ? gbd.day : ''
     }
 
     const dateDisplay = computed(() => {
@@ -52,7 +52,7 @@
     })
 
     watch(
-        () => history.expandingDay,
+        () => history.targetDay,
         (v) => {
             expand.value = v === gbd.day
         },
