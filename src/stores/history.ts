@@ -42,6 +42,11 @@ export const useHistoryStore = defineStore('history', () => {
             }));
     });
 
+    const trackedItemsByDay = computed(()=> {
+        const d = groupedByDay.value.find(g => g.day == targetDay.value)
+        return d
+    })
+
     const groupedByMonth = computed<GroupedMonthly[]>(() => {
         const groups: Record<string, GroupedDaily[]> = {}
 
@@ -87,6 +92,7 @@ export const useHistoryStore = defineStore('history', () => {
         groupedByDay,
         groupedByMonth,
         targetDay,
+        trackedItemsByDay,
         congregationSearch,
         congregationHistory,
         fetching,

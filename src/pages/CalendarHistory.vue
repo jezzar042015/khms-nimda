@@ -1,6 +1,6 @@
 <template>
     <Teleport to="body">
-        
+        <CalendarDayDetails />
     </Teleport>
     <div class="relative overflow-hidden h-screen flex flex-col">
         <ProgressLine v-show="history.fetching" />
@@ -25,12 +25,13 @@
 
 <script setup lang="ts">
     import CalendarHistoryItem from '@/components/history/CalendarHistoryItem.vue';
-    import ProgressLine from '@/components/ProgressLine.vue';
-    import { useTimeAgo } from '@/composables/useTimeAgo';
     import ListIcon from '@/icons/ListIcon.vue';
+    import ProgressLine from '@/components/ProgressLine.vue';
+    import { storeToRefs } from 'pinia';
     import { useHistoryStore } from '@/stores/history';
     import { usePageStore } from '@/stores/pages';
-    import { storeToRefs } from 'pinia';
+    import { useTimeAgo } from '@/composables/useTimeAgo';
+    import CalendarDayDetails from '@/components/modals/CalendarDayDetails.vue';
 
     const history = useHistoryStore()
     const pages = usePageStore()

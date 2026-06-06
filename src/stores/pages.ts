@@ -1,12 +1,14 @@
-import type { AppPages } from "@/types/pages";
+import type { AppModals, AppPages } from "@/types/pages";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const usePageStore = defineStore('pages', () => {
-    
-    const active = ref<AppPages>('home')
 
+    const active = ref<AppPages>('home')
+    const modal = ref<AppModals | ''>('')
+    
     return {
-        active
+        active,
+        modal
     }
 })

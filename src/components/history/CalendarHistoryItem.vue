@@ -18,8 +18,9 @@
 
             <!-- Calendar -->
             <div class="grid grid-cols-7 gap-1 mt-1">
-                <div v-for="day in calendarDays" :key="day.key" class="relative min-h-14 p-0.5 rounded overflow-hidden"
-                    :class="{
+                <div v-for="day in calendarDays" :key="day.key"
+                    class="relative min-h-14 p-0.5 rounded overflow-hidden cursor-pointer"
+                    @click="setTargetDay(day.key)" :class="{
                         'text-gray-400': !day.currentMonth && day.histories.length === 0,
                         'ring-2 ring-amber-500': day.isToday,
                         'bg-gray-50': day.histories.length === 0,
@@ -53,17 +54,13 @@
 </template>
 
 <script setup lang="ts">
-    import type { TrackedData } from '@/types/history'
-
-    interface GroupedMonthly {
-        month: string // YYYY-MM
-        tracked: {
-            day: string // YYYY-MM-DD
-            tracked: TrackedData[]
-        }[]
-    }
+    import { useHistoryStore } from '@/stores/history'
+    import { usePageStore } from '@/stores/pages';
+    import type { CalendarDay, GroupedMonthly, TrackedData } from '@/types/history'
 
     const props = defineProps<GroupedMonthly>()
+    const history = useHistoryStore()
+    const pages = usePageStore()
 
     const daysLabel = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
@@ -76,6 +73,10 @@
     })
 
     const today = new Date()
+    const setTargetDay = (targetDay: string) => {
+        history.targetDay = targetDay.replaceAll('curr-', '')
+        pages.modal = 'calendar-day-details'
+    }
 
     const formatDateKey = (date: Date) => {
         const y = date.getFullYear()
@@ -88,18 +89,6 @@
 
     for (const d of props.tracked) {
         historiesByDate.set(d.day, d.tracked)
-    }
-
-    /**
-     * Calendar day type
-     */
-    interface CalendarDay {
-        key: string
-        day: number
-        currentMonth: boolean
-        isToday: boolean
-        date: Date
-        histories: TrackedData[]
     }
 
     /**

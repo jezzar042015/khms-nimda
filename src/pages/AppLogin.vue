@@ -61,7 +61,7 @@
         const response = await auth.login(username.value, password.value)
 
         if (response) {
-            pages.active = 'home'
+            pages.active = 'calendar'
             await history.pull()
         }
     }

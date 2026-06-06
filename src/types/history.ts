@@ -14,3 +14,15 @@ export interface GroupedMonthly {
     month: string  //YYYY-MM 
     tracked: GroupedDaily[]
 }
+
+/**
+  * Calendar day type
+  */
+export interface CalendarDay {
+    key: string
+    day: number
+    currentMonth: boolean
+    isToday: boolean
+    date: Date
+    histories: TrackedData[]
+}
