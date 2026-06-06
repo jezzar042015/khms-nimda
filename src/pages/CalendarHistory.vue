@@ -5,7 +5,8 @@
             <div class="font-bold text-2xl">Usage Calendar</div>
             <div v-if="history.ts" class="text-xs">Updated: {{ timeAgo }}</div>
         </div>
-        <div class="flex justify-end pr-5">
+
+        <div class="absolute right-0 top-5 flex justify-end pr-5">
             <button class="text-sm p-2 rounded shadow" @click="gotoList">
                 <ListIcon class="h-5 w-5" />
             </button>
