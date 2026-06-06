@@ -1,5 +1,6 @@
 <template>
-    <div class="overflow-hidden h-screen flex flex-col">
+    <div class="relative overflow-hidden h-screen flex flex-col">
+        <ProgressLine v-show="history.fetching"/>
         <div class="pt-4 px-4 pb-2">
             <div class="font-bold text-2xl">History</div>
             <div v-if="history.ts" class="text-xs">Updated: {{ timeAgo }}</div>
@@ -15,6 +16,7 @@
 
 <script setup lang="ts">
     import DailyGroup from '@/components/history/DailyGroup.vue';
+    import ProgressLine from '@/components/ProgressLine.vue';
     import { useTimeAgo } from '@/composables/useTimeAgo';
     import { useHistoryStore } from '@/stores/history';
     import { storeToRefs } from 'pinia';
