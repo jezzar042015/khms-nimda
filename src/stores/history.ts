@@ -1,4 +1,4 @@
-import type { GroupedDaily, TrackedData } from "@/types/history";
+import type { GroupedDaily, GroupedMonthly, TrackedData } from "@/types/history";
 import type { TrackedDataResponse } from "@/types/responses";
 import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
@@ -30,7 +30,8 @@ export const useHistoryStore = defineStore('history', () => {
                 String(date.getDate()).padStart(2, '0'),
             ].join('-');
 
-            (groups[dayKey] ??= []).push(item);
+            const dayGroup = groups[dayKey] ?? (groups[dayKey] = [])
+            dayGroup.push(item)
         }
 
         return Object.entries(groups)
@@ -40,6 +41,24 @@ export const useHistoryStore = defineStore('history', () => {
                 tracked,
             }));
     });
+
+    const groupedByMonth = computed<GroupedMonthly[]>(() => {
+        const groups: Record<string, GroupedDaily[]> = {}
+
+        for (const dayGroup of groupedByDay.value) {
+            const monthKey = dayGroup.day.slice(0, 7)
+
+            const monthGroup = groups[monthKey] ?? (groups[monthKey] = [])
+            monthGroup.push(dayGroup)
+        }
+
+        return Object.entries(groups)
+            .sort(([a], [b]) => b.localeCompare(a))
+            .map(([month, tracked]) => ({
+                month,
+                tracked,
+            }))
+    })
 
     const congregationHistory = computed(() => {
         return reversed.value.filter(h => h.cong === congregationSearch.value)
@@ -66,6 +85,7 @@ export const useHistoryStore = defineStore('history', () => {
         data,
         reversed,
         groupedByDay,
+        groupedByMonth,
         expandingDay,
         congregationSearch,
         congregationHistory,

@@ -9,3 +9,8 @@ export interface GroupedDaily {
     day: string
     tracked: TrackedData[]
 }
+
+export interface GroupedMonthly {
+    month: string  //YYYY-MM 
+    tracked: GroupedDaily[]
+}
