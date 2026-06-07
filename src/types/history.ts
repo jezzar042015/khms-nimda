@@ -2,7 +2,9 @@ export interface TrackedData {
     ts: string
     cong: string
     lang: string
-    classes: 1 | 2
+    classes: 1 | 2,
+    time?: '',
+    language?: ''
 }
 
 export interface GroupedDaily {

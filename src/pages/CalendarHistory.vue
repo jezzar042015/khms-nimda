@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+    import CalendarDayDetails from '@/components/modals/CalendarDayDetails.vue';
     import CalendarHistoryItem from '@/components/history/CalendarHistoryItem.vue';
     import ListIcon from '@/icons/ListIcon.vue';
     import ProgressLine from '@/components/ProgressLine.vue';
@@ -31,7 +32,6 @@
     import { useHistoryStore } from '@/stores/history';
     import { usePageStore } from '@/stores/pages';
     import { useTimeAgo } from '@/composables/useTimeAgo';
-    import CalendarDayDetails from '@/components/modals/CalendarDayDetails.vue';
 
     const history = useHistoryStore()
     const pages = usePageStore()
