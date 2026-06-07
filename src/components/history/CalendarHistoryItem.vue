@@ -39,8 +39,8 @@
                         </div>
 
                         <!-- Volume -->
-                        <div class="font-semibold text-sm text-center bor">
-                            <span class="h-8 w-8" v-if="day.histories.length">
+                        <div class="font-semibold text-sm text-center">
+                            <span v-if="day.histories.length" class="h-8 w-8">
                                 {{ day.histories.length }}
                             </span>
                         </div>
@@ -54,11 +54,16 @@
 </template>
 
 <script setup lang="ts">
+    import { computed } from 'vue'
     import { useHistoryStore } from '@/stores/history'
-    import { usePageStore } from '@/stores/pages';
-    import type { CalendarDay, GroupedMonthly, TrackedData } from '@/types/history'
+    import { usePageStore } from '@/stores/pages'
+    import type { CalendarDay, GroupedDaily, TrackedData } from '@/types/history'
 
-    const props = defineProps<GroupedMonthly>()
+    const props = defineProps<{
+        month: string
+        tracked: GroupedDaily[]
+    }>()
+
     const history = useHistoryStore()
     const pages = usePageStore()
 
@@ -73,8 +78,9 @@
     })
 
     const today = new Date()
+
     const setTargetDay = (targetDay: string) => {
-        history.targetDay = targetDay.replaceAll('curr-', '')
+        history.targetDay = targetDay.replace('curr-', '')
         pages.modal = 'calendar-day-details'
     }
 
@@ -82,19 +88,21 @@
         const y = date.getFullYear()
         const m = String(date.getMonth() + 1).padStart(2, '0')
         const d = String(date.getDate()).padStart(2, '0')
+
         return `${y}-${m}-${d}`
     }
 
-    const historiesByDate = new Map<string, TrackedData[]>()
+    const historiesByDate = computed(() => {
+        const map = new Map<string, TrackedData[]>()
 
-    for (const d of props.tracked) {
-        historiesByDate.set(d.day, d.tracked)
-    }
+        for (const day of props.tracked) {
+            map.set(day.day, day.tracked)
+        }
 
-    /**
-     * Build calendar grid
-     */
-    const calendarDays: CalendarDay[] = (() => {
+        return map
+    })
+
+    const calendarDays = computed<CalendarDay[]>(() => {
         const result: CalendarDay[] = []
 
         const firstDay = new Date(year, monthIndex, 1)
@@ -115,7 +123,7 @@
                 currentMonth: false,
                 isToday: false,
                 date,
-                histories: historiesByDate.get(key) ?? [],
+                histories: historiesByDate.value.get(key) ?? [],
             })
         }
 
@@ -133,7 +141,7 @@
                     date.getMonth() === today.getMonth() &&
                     date.getDate() === today.getDate(),
                 date,
-                histories: historiesByDate.get(key) ?? [],
+                histories: historiesByDate.value.get(key) ?? [],
             })
         }
 
@@ -150,25 +158,21 @@
                 currentMonth: false,
                 isToday: false,
                 date,
-                histories: historiesByDate.get(key) ?? [],
+                histories: historiesByDate.value.get(key) ?? [],
             })
         }
 
         return result
-    })()
+    })
 
-    /**
-     * Max volume for heat scaling
-     */
-    const maxVolume = Math.max(
-        1,
-        ...calendarDays.map(d => d.histories.length),
+    const maxVolume = computed(() =>
+        Math.max(
+            1,
+            ...calendarDays.value.map(day => day.histories.length),
+        ),
     )
 
-    /**
-     * Convert count → percentage height
-     */
     const getFillPercent = (count: number) => {
-        return (count / maxVolume) * 100
+        return (count / maxVolume.value) * 100
     }
 </script>

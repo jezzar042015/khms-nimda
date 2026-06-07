@@ -2,7 +2,7 @@
     <div v-if="pages.modal == 'calendar-day-details' && hasTrackedItems" @click.self="close"
         class="flex absolute left-0 top-0 h-screen w-full overflow-hidden bg-black/80 z-10">
 
-        <div class="flex flex-col bg-white w-[90%] h-[90%] my-10 m-auto max-w-md rounded-md py-4 pl-4">
+        <div class="flex flex-col bg-white w-[85%] h-[80%] my-10 m-auto max-w-md rounded-md py-4 pl-4">
             <div class=" py-3 font-bold text-xl">{{ dateDisplay }}</div>
 
             <div class="flex-1 overflow-auto space-y-5">
