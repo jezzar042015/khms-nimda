@@ -4,21 +4,29 @@
             <div class="text-3xl font-bold">
                 Dashboard
             </div>
-            <div @click="gotoCongregations">
-                <div class="text-gray-600">
-                    Congregations
+            <div class="flex justify-between">
+                <div @click="gotoCongregations" class="w-1/2">
+                    <div class="text-gray-600">
+                        Congregations
+                    </div>
+                    <div class="text-3xl font-bold">{{ history.congregations.length }}</div>
                 </div>
-                <div class="text-3xl font-bold">{{ history.congregations.length }}</div>
+
+                <div class="w-1/2">
+                    <div class="text-gray-600">Total Visits</div>
+                    <div class="text-3xl font-bold">{{ history.data.length }}</div>
+                </div>
             </div>
 
-            <div>
-                <div class="text-gray-600">Total Visits</div>
-                <div class="text-3xl font-bold">{{ history.data.length }}</div>
-            </div>
-
-            <div>
-                <div class="text-gray-600">Daily Average Visit</div>
-                <div class="text-3xl font-bold">{{ averageDailyVisit }}</div>
+            <div class="flex justify-between">
+                <div class="w-1/2">
+                    <div class="text-gray-600">Daily Visits</div>
+                    <div class="text-3xl font-bold">{{ averageDailyVisit }}</div>
+                </div>
+                <div class="w-1/2">
+                    <div class="text-gray-600">Visits Today</div>
+                    <div class="text-3xl font-bold">{{ visitsToday.length }}</div>
+                </div>
             </div>
 
             <div @click="gotoCalenderView"
@@ -50,4 +58,18 @@
     const gotoCongregations = () => {
         pages.active = 'congregations'
     }
+
+    const visitsToday = computed(() => {
+        const d = new Date()
+        const [month, day, year] = d.toLocaleDateString('en-US', {
+            month: '2-digit',
+            year: 'numeric',
+            day: '2-digit',
+
+        }).split('/')
+        const target = `${year}-${month}-${day}`
+
+        const today = history.groupedByDay.find(m => m.day === target)
+        return today ? today.tracked : []
+    })
 </script>
