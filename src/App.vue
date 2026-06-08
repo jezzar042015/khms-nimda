@@ -8,6 +8,7 @@
   import { usePageStore } from './stores/pages';
   import { useAuthStore } from './stores/auth.ts';
   import CalendarHistory from './pages/CalendarHistory.vue';
+  import AppDashboard from './pages/AppDashboard.vue';
 
   const pages = usePageStore()
   const history = useHistoryStore()
@@ -15,7 +16,7 @@
 
   onMounted(async () => {
     if (auth.token) {
-      pages.active = 'calendar'
+      pages.active = 'dashboard'
       await history.pull()
     } else {
       pages.active = 'login'
@@ -26,6 +27,7 @@
 <template>
   <div class="mx-auto max-w-md">
     <AppHome v-if="pages.active == 'home'" />
+    <AppDashboard v-if="pages.active == 'dashboard'" />
     <AppLogin v-if="pages.active == 'login'" />
     <AppUserRegister v-if="pages.active == 'register'" />
     <CongregationHistory v-if="pages.active == 'cong-history'" />

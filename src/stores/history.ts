@@ -42,7 +42,7 @@ export const useHistoryStore = defineStore('history', () => {
             }));
     });
 
-    const trackedItemsByDay = computed(()=> {
+    const trackedItemsByDay = computed(() => {
         const d = groupedByDay.value.find(g => g.day == targetDay.value)
         return d
     })
@@ -86,6 +86,20 @@ export const useHistoryStore = defineStore('history', () => {
         }
     }
 
+    const congregations = computed<TrackedData[]>(() => {
+        const map = new Map<string, TrackedData>()
+
+        for (const item of data.value) {
+            const key = `${item.cong}|${item.lang}|${item.classes}`
+
+            if (!map.has(key)) {
+                map.set(key, item)
+            }
+        }
+
+        return [...map.values()]
+    })
+
     return {
         data,
         reversed,
@@ -96,6 +110,7 @@ export const useHistoryStore = defineStore('history', () => {
         congregationSearch,
         congregationHistory,
         fetching,
+        congregations,
         pull,
         ts
     }
