@@ -1,8 +1,8 @@
 <template>
     <div class="overflow-hidden h-screen flex flex-col">
-        <div @click="goHome" class="pt-4 px-4 pb-2 text-sm cursor-pointer flex items-center gap-1">
-            <HomeIcon class="-mt-0.5 h-3 w-3" />
-            <span>Home</span>
+        <div @click="gotoPreviousPage" class="pt-4 px-4 pb-2 text-sm cursor-pointer flex items-center gap-1">
+            <CaretIcon class="h-5 w-5" />
+            <span>Return</span>
         </div>
         <div class="pt-0 px-4 pb-2">
             <div class="font-bold text-lg"> {{ history.congregationSearch }}</div>
@@ -34,23 +34,25 @@
 </template>
 
 <script setup lang="ts">
+
+    import CalendarIcon from '@/icons/CalendarIcon.vue';
+    import CaretIcon from '@/icons/CaretIcon.vue';
     import CongHistoryItem from '@/components/history/CongHistoryItem.vue';
-    import HomeIcon from '@/icons/HomeIcon.vue';
+    import ListIcon from '@/icons/ListIcon.vue';
+    import UsageCalendar from '@/components/history/UsageCalendar.vue';
+    import { computed, onMounted, ref } from 'vue';
     import { useFrequencyAnalyzer } from '@/composables/useFrequencyAnalyzer';
     import { useHistoryStore } from '@/stores/history';
     import { usePageStore } from '@/stores/pages';
-    import { computed, onMounted, ref } from 'vue';
-    import UsageCalendar from '@/components/history/UsageCalendar.vue';
-    import ListIcon from '@/icons/ListIcon.vue';
-    import CalendarIcon from '@/icons/CalendarIcon.vue';
 
     const history = useHistoryStore()
     const pages = usePageStore()
     const analyzer = useFrequencyAnalyzer(history.congregationHistory)
     const mode = ref<'list' | 'calendar'>('calendar')
 
-    const goHome = () => {
-        pages.active = 'home'
+    const gotoPreviousPage = () => {
+        pages.active = pages.previous
+        pages.previous = 'cong-history'
     }
 
     const isOnListMode = computed(() => mode.value === 'list')

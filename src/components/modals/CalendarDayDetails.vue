@@ -8,10 +8,14 @@
             <div class="flex-1 overflow-auto space-y-5">
 
                 <div v-for="trackedItems in modifiedTrackedItems" :key="trackedItems.ts" class="px-1 flex">
-                    <div class="w-18 text-xs"> {{ trackedItems.time }}</div>
+                    <div class="w-18 text-xs py-0.5"> {{ trackedItems.time }}</div>
                     <div class="flex-1 text-sm">
                         <div class="font-bold">{{ trackedItems.cong }}</div>
                         <div class="text-xs">{{ trackedItems.language }}</div>
+                        <button @click="reviewCongregationHistory(trackedItems.cong)"
+                            class="shadow mt-2 py-1 px-2 rounded-sm text-[11px] cursor-pointer">
+                            Review History
+                        </button>
                     </div>
                 </div>
             </div>
@@ -78,5 +82,11 @@
 
     const close = () => {
         pages.modal = ''
+    }
+
+    const reviewCongregationHistory = (cong: string) => {
+        history.congregationSearch = cong
+        pages.previous = 'calendar'
+        pages.active = 'cong-history'
     }
 </script>
