@@ -3,7 +3,7 @@
         <CalendarDayDetails />
     </Teleport>
     <div class="relative overflow-hidden h-screen flex flex-col">
-        <ProgressLine v-show="history.fetching" />
+        <ProgressLine />
         <div class="pt-4 px-4 pb-2">
             <div class="font-bold text-2xl">Usage Calendar</div>
             <div v-if="history.ts" class="text-xs">Updated: {{ timeAgo }}</div>

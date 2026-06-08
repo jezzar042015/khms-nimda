@@ -1,5 +1,6 @@
 <template>
-    <div class="h-screen overflow-hidden w-full">
+    <div class="relative h-screen overflow-hidden w-full">
+        <ProgressLine />
         <div class="px-6 py-8 space-y-8">
             <div class="text-3xl font-bold">
                 Dashboard
@@ -39,7 +40,8 @@
 </template>
 
 <script setup lang="ts">
-    import CalendarIcon from '@/icons/CalendarIcon.vue';
+    import ProgressLine from '@/components/ProgressLine.vue';
+import CalendarIcon from '@/icons/CalendarIcon.vue';
     import { useHistoryStore } from '@/stores/history';
     import { usePageStore } from '@/stores/pages';
     import { computed } from 'vue';
