@@ -17,6 +17,27 @@ export const useHistoryStore = defineStore('history', () => {
         return [...data.value].reverse()
     })
 
+    const languages: Record<string, string> = {
+        'ceb': 'Cebuano',
+        'hil': 'Hiligaynon',
+        'psp': 'Filipino Sign Langauge',
+        'tl': 'Tagalog',
+        'war': 'Waraywaray',
+    }
+
+    const expandLanguage = (code: string): string => {
+        return languages[code] ?? code
+    }
+
+    const getTime = (ts: string) => {
+        const d = new Date(ts)
+        return d.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            hour12: true,
+            minute: 'numeric'
+        })
+    }
+
     const groupedByDay = computed<GroupedDaily[]>(() => {
         const groups: Record<string, TrackedData[]> = {};
 
@@ -31,6 +52,8 @@ export const useHistoryStore = defineStore('history', () => {
             ].join('-');
 
             const dayGroup = groups[dayKey] ?? (groups[dayKey] = [])
+            item.language = expandLanguage(item.lang)
+            item.time = getTime(item.ts)
             dayGroup.push(item)
         }
 
@@ -97,7 +120,7 @@ export const useHistoryStore = defineStore('history', () => {
             }
         }
 
-        return [...map.values()]
+        return [...map.values()].sort((a, b) => a.cong.localeCompare(b.cong))
     })
 
     return {

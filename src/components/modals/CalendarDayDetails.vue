@@ -39,13 +39,7 @@
 
     const modifiedTrackedItems = computed(() => {
         if (!history.trackedItemsByDay) return []
-        return history.trackedItemsByDay.tracked.map((c) => {
-            return {
-                ...c,
-                time: getTime(c.ts),
-                language: expandLanguage(c.lang)
-            }
-        }).reverse()
+        return [...history.trackedItemsByDay.tracked].reverse()
     })
 
     const languages: Record<string, string> = {
@@ -54,19 +48,6 @@
         'psp': 'Filipino Sign Langauge',
         'tl': 'Tagalog',
         'war': 'Waraywaray',
-    }
-
-    const expandLanguage = (code: string) => {
-        return languages[code] ?? code
-    }
-
-    const getTime = (ts: string) => {
-        const d = new Date(ts)
-        return d.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            hour12: true,
-            minute: 'numeric'
-        })
     }
 
     const dateDisplay = computed(() => {

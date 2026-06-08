@@ -3,8 +3,8 @@ export interface TrackedData {
     cong: string
     lang: string
     classes: 1 | 2,
-    time?: '',
-    language?: ''
+    time?: string,
+    language?: string | null
 }
 
 export interface GroupedDaily {
