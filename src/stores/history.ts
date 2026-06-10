@@ -133,7 +133,8 @@ export const useHistoryStore = defineStore('history', () => {
         }
 
         return Array.from(map.values()).sort((a, b) =>
-            a.cong.localeCompare(b.cong)
+            // a.cong.localeCompare(b.cong)
+            b.visits - a.visits
         )
     })
 
