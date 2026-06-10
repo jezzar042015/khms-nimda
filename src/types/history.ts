@@ -1,3 +1,12 @@
+export interface Congregation {
+    cong: string
+    lang: string
+    classes: 1 | 2
+    language?: string | null        
+    latest: string
+    visits: number
+}
+
 export interface TrackedData {
     ts: string
     cong: string

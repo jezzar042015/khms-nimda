@@ -1,4 +1,4 @@
-import type { GroupedDaily, GroupedMonthly, TrackedData } from "@/types/history";
+import type { Congregation, GroupedDaily, GroupedMonthly, TrackedData } from "@/types/history";
 import type { TrackedDataResponse } from "@/types/responses";
 import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
@@ -23,6 +23,7 @@ export const useHistoryStore = defineStore('history', () => {
         'psp': 'Filipino Sign Langauge',
         'tl': 'Tagalog',
         'war': 'Waraywaray',
+        'pag': 'Pangasinan'
     }
 
     const expandLanguage = (code: string): string => {
@@ -109,18 +110,31 @@ export const useHistoryStore = defineStore('history', () => {
         }
     }
 
-    const congregations = computed<TrackedData[]>(() => {
-        const map = new Map<string, TrackedData>()
+    const congregations = computed<Congregation[]>(() => {
+        const map = new Map<string, Congregation>()
 
         for (const item of data.value) {
             const key = `${item.cong}|${item.lang}|${item.classes}`
 
-            if (!map.has(key)) {
-                map.set(key, item)
+            const existing = map.get(key)
+
+            if (existing) {
+                existing.visits++
+            } else {
+                map.set(key, {
+                    classes: item.classes,
+                    cong: item.cong,
+                    lang: item.lang,
+                    language: item.language,
+                    latest: '',
+                    visits: 1,
+                })
             }
         }
 
-        return [...map.values()].sort((a, b) => a.cong.localeCompare(b.cong))
+        return Array.from(map.values()).sort((a, b) =>
+            a.cong.localeCompare(b.cong)
+        )
     })
 
     return {

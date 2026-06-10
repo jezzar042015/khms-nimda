@@ -29,6 +29,9 @@
                     <div class="text-xs">
                         {{ cong.language }}
                     </div>
+                    <div class="text-xs">
+                        Tracked visits:  {{ cong.visits }}
+                    </div>
 
                 </div>
             </div>

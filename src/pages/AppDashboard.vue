@@ -3,29 +3,30 @@
         <ProgressLine />
         <div class="px-6 py-8 space-y-8">
             <div class="text-3xl font-bold">
-                Dashboard
+                <div> Dashboard</div>
+                <div v-if="history.ts" class="text-xs font-normal">Updated: {{ timeAgo }}</div>
             </div>
             <div class="flex justify-between">
                 <div @click="gotoCongregations" class="w-1/2">
-                    <div class="text-gray-600">
+                    <div class="text-gray-600 text-sm">
                         Congregations
                     </div>
                     <div class="text-3xl font-bold">{{ history.congregations.length }}</div>
                 </div>
 
                 <div class="w-1/2">
-                    <div class="text-gray-600">Total Visits</div>
+                    <div class="text-gray-600 text-sm">Total Visits</div>
                     <div class="text-3xl font-bold">{{ history.data.length }}</div>
                 </div>
             </div>
 
             <div class="flex justify-between">
                 <div class="w-1/2">
-                    <div class="text-gray-600">Daily Visits</div>
+                    <div class="text-gray-600 text-sm">Daily Visits</div>
                     <div class="text-3xl font-bold">{{ averageDailyVisit }}</div>
                 </div>
                 <div class="w-1/2">
-                    <div class="text-gray-600">Visits Today</div>
+                    <div class="text-gray-600 text-sm">Visits Today</div>
                     <div class="text-3xl font-bold">{{ visitsToday.length }}</div>
                 </div>
             </div>
@@ -40,14 +41,18 @@
 </template>
 
 <script setup lang="ts">
+    import CalendarIcon from '@/icons/CalendarIcon.vue';
     import ProgressLine from '@/components/ProgressLine.vue';
-import CalendarIcon from '@/icons/CalendarIcon.vue';
+    import { computed } from 'vue';
+    import { storeToRefs } from 'pinia';
     import { useHistoryStore } from '@/stores/history';
     import { usePageStore } from '@/stores/pages';
-    import { computed } from 'vue';
+    import { useTimeAgo } from '@/composables/useTimeAgo';
 
     const history = useHistoryStore()
     const pages = usePageStore()
+    const { ts } = storeToRefs(history)
+    const { timeAgo } = useTimeAgo(ts)
 
     const averageDailyVisit = computed(() => {
         return Math.round(history.data.length / history.groupedByDay.length)
